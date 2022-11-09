@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+
+
+<center> 
+    <h3>Register</h3> <br> 
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="formcontainer">
+    <div class="container">
+        <input type="text" placeholder="Username" name="username" required> <br><br>
+        <input type="password" placeholder="Enter Password" name="password1" required> <br><br>
+        <input type="password" placeholder="Enter Password" name="password2" required> <br><br>
+    </div>
+
+
+    <button type="submit"> Register </button> <br> <br>
+
+    <div class="container">
+        <span class="psw"><a href="{% url 'login' %}"> Swith to Login Page </a></span>
+    </div>
+</form>
+</center>
+
+{% endblock %}

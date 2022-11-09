@@ -1,0 +1,55 @@
+
+<div id="created_post">
+<div id="created_comment">
+
+<nav class="sticky-top">
+	<a href="{% url 'logout' %}" style="float: right; margin: 1% 1%;"> Logout {{ request.user }}</a>
+	<a hx-get="{% url 'my_posts' %}" hx-target='#my_posts' hx-swap='outerHTML' style="float: right; margin: 1% 1%;"> My posts </a>
+	<a href="{% url 'home' %}" hx-boost='true' style="float: right; margin: 1% 1%;"> Homepage </a>
+
+	<form hx-post="{% url 'create_post' %}" hx-target='#created_post' hx-swap='outerHTML'>
+		{% csrf_token %}
+			<input type="text" placeholder="Type something" required name="new_post_field" maxlength='1000'> 
+			<button type="submit" name="" class="btn btn-outline-secondary btn-sm"> Publish </button> 	
+	</form> 
+</nav> <br>
+
+
+
+{% for post in all_posts %}
+	{% if post.post_author == request.user %}
+		<div class="card">
+		  <div class="card-body">
+		    <h6 class="card-title"> 
+		    	<b>{{ post.post_author}}, {{ post.post_created_on|timesince }} ago </b> | <small><i>{{ post.post|length }} / 1000</i></small>
+	    			{% if post.post_author == request.user %} 
+	    				<a hx-delete="{% url 'delete_post' post.pk %}" hx-confirm='Confirm?' hx-swap='outerHTML'> <small> | Delete </small> </a>
+	    			{% endif %} 
+		    </h6>
+
+	    	<ul><h6 class="card-text">{{ post.post|capfirst }} </h6> </ul> 
+
+				<div id="comments-section">
+					<!-- <div style="height: 200px; overflow: scroll"> -->
+							<form hx-post="{% url 'create_comment' post.pk %}" hx-target='#created_comment' hx-swap='outerHTML'>
+								{% csrf_token %}
+								<input type="text" placeholder="Type comment" required name="new_comment_field" maxlength='1000'>
+								<button type="submit" name="" class="btn btn-outline-secondary btn-sm"> Publish </button><br><br>
+							</form>
+
+							{% for comment in post.comment_set.all %}
+								<b>{{ comment.comment_author }}, {{ comment.comment_created_on|timesince }} ago </b> | <small><i>{{ comment.comment|length }} / 1000</i></small> 
+
+									{% if comment.comment_author == request.user %}
+										<a hx-delete="{% url 'delete_comment' comment.id %}" hx-confirm='Confirm?' hx-swap='outerHTML'> <small> | Delete </small> </a>
+									{% endif %} 
+
+									<ul>{{ comment.comment|capfirst }} </ul> 
+							{% endfor %}
+					<!-- </div> -->
+				</div>
+			</div>
+	  </div>
+ {% endif %}
+{% endfor %}
+

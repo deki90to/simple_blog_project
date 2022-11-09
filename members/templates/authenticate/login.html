@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+
+
+
+{% if not request.user.is_authenticated %}
+
+<center> 
+    <h3> Login </h3> <br>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div class="formcontainer">
+    <div class="container">
+        <input type="text" placeholder="Enter Username" name="username" required> <br><br>
+        <input type="password" placeholder="Enter Password" name="password" required><br><br>
+    </div>
+
+    <button type="submit">Login</button><br><br>
+
+    <div class="container">
+        <span class="psw"><a href="{% url 'reset_password' %}"> Forgot password?</a></span>
+    </div>
+
+    <div class="container">
+        <span class="psw"><a href="{% url 'register' %}"> Swith to Register Page </a></span>
+    </div>
+</form>
+
+
+
+{% else %}
+  <h1> U r already Logged In! </h1>
+{% endif %}
+</center>
+
+
+{% endblock %}
+
+
+
+
+
+
+
+    <!-- <h3> Login </h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+
+        <input type="text" name="username" placeholder="Username">
+        <input type="password" name="password" placeholder="Password">
+        
+        <input type="submit" value="Login">
+    </form>
+    <div>
+        <a href="{% url 'reset_password' %}">Forgot password?</a>
+    </div> -->
+
+<!-- {% if messages %}
+    {% for message in messages %}
+        {{message}}
+    {% endfor %}
+{% endif %} -->
+
