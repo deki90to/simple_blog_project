@@ -1,2 +1,2 @@
 
-Simple one page blog-project using *django and htmx*
+Simple one-page blog using *django and htmx*
